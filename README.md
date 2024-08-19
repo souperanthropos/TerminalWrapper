@@ -23,15 +23,5 @@
         - The method shows the terminal and sends the provided `command` to it.
         - After executing the command, it sends an exit command (`; exit`) to close the terminal.
         - The method returns a promise that resolves with the terminal's exit status or rejects with an error message if the status is undefined.
-	- `executeCommand(command: string): Promise<boolean>`:
-		- This method executes a command in the specified terminal.
-		- If the terminal with the given name does not exist, it creates a new one.
-		- The command is executed with the following steps:
-			- `$share = ${this.setEncodingUtf8} ${command} | Tee-Object -file ${this.executeLogFilePath};`: The command is executed, and its output is logged to the `executeLogFilePath`.
-			- `if($?){'1' > ${this.executeResultFilePath}}else{'0' > ${this.executeResultFilePath}};`: The result of the command execution (1 for success, 0 for failure) is recorded in the `executeResultFilePath`.
-			- `exit`: The terminal is closed.
-		- Handling Terminal Closure:
-			- When the terminal is closed, the `onDidCloseTerminal` event is triggered.
-			- The method reads the content of the `executeResultFilePath`.
-			- If the terminal exit status is defined, it resolves the promise with `true` or `false` based on the read status.
-			- If the terminal exit status is undefined, it rejects the promise with the message "Terminal exited with undefined status."
+    - `executeCommand(command: string, isLogging: boolean): Promise<boolean>`: 
+        - An asynchronous method to execute a command in the terminal. If isLogging is true, the command and its result will be logged. The method returns a Promise that resolves to true or false depending on the success of the command execution.
